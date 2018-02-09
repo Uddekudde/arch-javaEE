@@ -30,6 +30,14 @@ public class AuthenticationResource {
     
     @EJB
     private Controller controller;
+    
+    @Path("authentication")
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public String login(LoginCredentials login) {
+        return controller.authenticate(login);
+    }
 
     @Path("registration")
     @POST
@@ -38,21 +46,13 @@ public class AuthenticationResource {
     public String register(RegistrationInfo regInfo) {
         return controller.registerPerson(regInfo);
     }
-
-    @Path("authenticate")
-    @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public String login(LoginCredentials login) {
-        return controller.authenticate(login);
-    }
     
-    @Path("authenticate")
+    @Path("authentication")
     @GET
     public String login() {
         LoginCredentials login = new LoginCredentials();
-        login.setPassword("memepass");
         login.setUsername("memeusername");
+        login.setPassword("memepass");
         return controller.authenticate(login);
     }
     
