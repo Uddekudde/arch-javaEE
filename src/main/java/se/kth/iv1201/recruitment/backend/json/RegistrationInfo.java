@@ -13,18 +13,18 @@ public class RegistrationInfo {
 
     String username;
     String password;
-    String name;
-    String surname;
+    String firstname;
+    String lastname;
     String ssn;
     String email;
     int role;
 
-    public String getName() {
-        return name;
+    public String getFirstname() {
+        return firstname;
     }
 
-    public String getSurname() {
-        return surname;
+    public String getLastname() {
+        return lastname;
     }
 
     public String getSsn() {
@@ -55,12 +55,12 @@ public class RegistrationInfo {
         this.password = password;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstname(String name) {
+        this.firstname = name;
     }
 
-    public void setSurname(String surname) {
-        this.surname = surname;
+    public void setLastname(String surname) {
+        this.lastname = surname;
     }
 
     public void setSsn(String ssn) {

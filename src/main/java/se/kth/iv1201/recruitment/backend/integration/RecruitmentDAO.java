@@ -37,6 +37,7 @@ public class RecruitmentDAO {
     private static final String ROLE_COLUMN = "role";
     private static final String ROLE_ID_COLUMN = "role_id";
     private static final String ROLE_TABLE = "role";
+    private static final int DEFAULT_ROLE = 2;
     
     private static final String dbms = "derby";
     private static final String databaseName = "RecruitmentDatabase";
@@ -158,12 +159,12 @@ public class RecruitmentDAO {
             throw new Exception(failureMsg);
         }
         try {
-            createUserStmt.setString(1, credentials.getName());
-            createUserStmt.setString(2, credentials.getSurname());
+            createUserStmt.setString(1, credentials.getFirstname());
+            createUserStmt.setString(2, credentials.getLastname());
             createUserStmt.setString(3, credentials.getSsn());
             createUserStmt.setString(4, credentials.getEmail());
             createUserStmt.setString(5, credentials.getPassword());
-            createUserStmt.setString(6, "2");
+            createUserStmt.setInt(6, DEFAULT_ROLE);
             createUserStmt.setString(7, credentials.getUsername());
             int rows = createUserStmt.executeUpdate();
             if (rows != 1) {

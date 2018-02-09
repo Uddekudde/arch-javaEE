@@ -15,7 +15,6 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriInfo;
 import se.kth.iv1201.recruitment.backend.controller.Controller;
-import se.kth.iv1201.recruitment.backend.json.FrontendRegInfo;
 import se.kth.iv1201.recruitment.backend.json.LoginCredentials;
 import se.kth.iv1201.recruitment.backend.json.RegistrationInfo;
 
@@ -36,15 +35,8 @@ public class AuthenticationResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public String register(FrontendRegInfo regInfo) {
-        RegistrationInfo info = new RegistrationInfo();
-        info.setName(regInfo.getFirstname());
-        info.setEmail(regInfo.getEmail());
-        info.setPassword(regInfo.getPassword());
-        info.setSsn("NOT_IMPLEMENTED");
-        info.setSurname(regInfo.getLastname());
-        info.setUsername(regInfo.getUsername());
-        return controller.registerPerson(info);
+    public String register(RegistrationInfo regInfo) {
+        return controller.registerPerson(regInfo);
     }
 
     @Path("authenticate")
@@ -69,10 +61,10 @@ public class AuthenticationResource {
     public String register() {
         RegistrationInfo login = new RegistrationInfo();
         login.setEmail("meme");
-        login.setName("memename");
+        login.setFirstname("memename");
         login.setPassword("memepass");
         login.setSsn("12345");
-        login.setSurname("memesurname");
+        login.setLastname("memesurname");
         login.setUsername("memeusernamenumerodos");
         return controller.registerPerson(login);
     }
