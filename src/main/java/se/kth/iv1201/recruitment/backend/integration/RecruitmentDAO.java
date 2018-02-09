@@ -23,6 +23,8 @@ import se.kth.iv1201.recruitment.backend.json.RegistrationInfo;
  *
  * @author udde
  */
+@ApplicationScoped
+@TransactionAttribute(TransactionAttributeType.MANDATORY)
 @Stateless
 public class RecruitmentDAO {
 
@@ -197,27 +199,9 @@ public class RecruitmentDAO {
     private void prepareStatements(Connection connection) throws SQLException {
         createUserStmt = connection.prepareStatement("INSERT INTO "
                 + PERSON_TABLE + " VALUES ( ?, ?, ?, ?, ?, ?, ?)");
-        deleteUserStmt = connection.prepareStatement("DELETE FROM "
-                + PERSON_TABLE
-                + " WHERE " + USERNAME_COLUMN + " = ?");
-        /**
-        createFileStmt = connection.prepareStatement("INSERT INTO "
-                + FILE_TABLE + " VALUES (?, ?, ?, ?)");
-        deleteFileStmt = connection.prepareStatement("DELETE FROM "
-                + FILE_TABLE
-                + " WHERE " + FILENAME_COLUMN + " = ?");
-        updateFileStmt = connection.prepareStatement("UPDATE "
-                + FILE_TABLE + " SET " + FILENAME_COLUMN + " = ?, " + SIZE_COLUMN
-                + " = ?, " + PUBLIC_COLUMN + " = ? WHERE " + FILENAME_COLUMN + " = ?");
-                * **/
+
         findUserStmt = connection.prepareStatement("SELECT * from "
                 + PERSON_TABLE + " WHERE " + USERNAME_COLUMN + " = ?");
-        /**
-        findFileStmt = connection.prepareStatement("SELECT * from "
-                + FILE_TABLE + " WHERE " + FILENAME_COLUMN + " = ?");
-        findAllFilesStmt = connection.prepareStatement("SELECT * from "
-                + FILE_TABLE + " WHERE NOT " + PUBLIC_COLUMN + " = 'private' OR "
-                + OWNER_COLUMN + " = ?");
-                **/
+
     }
 }
