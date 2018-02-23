@@ -6,10 +6,12 @@
 package se.kth.iv1201.recruitment.backend.json;
 
 /**
+ * A Java object representation of the JSON received on the authentication page.
  *
  * @author udde
  */
 public class LoginCredentials {
+
     String username;
     String password;
 
@@ -28,6 +30,5 @@ public class LoginCredentials {
     public void setPassword(String password) {
         this.password = password;
     }
-    
-    
+
 }

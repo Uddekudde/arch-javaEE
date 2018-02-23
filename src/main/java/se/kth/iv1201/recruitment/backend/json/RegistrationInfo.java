@@ -6,7 +6,8 @@
 package se.kth.iv1201.recruitment.backend.json;
 
 /**
- *
+ * A java object representation of the JSON received on the registration page.
+ * 
  * @author udde
  */
 public class RegistrationInfo {
@@ -17,7 +18,7 @@ public class RegistrationInfo {
     String lastname;
     String ssn;
     String email;
-    int role;
+    String role;
 
     public String getFirstname() {
         return firstname;
@@ -35,7 +36,7 @@ public class RegistrationInfo {
         return email;
     }
 
-    public int getRole() {
+    public String getRole() {
         return role;
     }
 
@@ -71,7 +72,7 @@ public class RegistrationInfo {
         this.email = email;
     }
 
-    public void setRole(int role) {
+    public void setRole(String role) {
         this.role = role;
     }
     

@@ -11,11 +11,13 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Savepoint;
 import java.sql.Statement;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.faces.bean.ApplicationScoped;
+import se.kth.iv1201.recruitment.backend.controller.Roles;
 import se.kth.iv1201.recruitment.backend.json.LoginCredentials;
 import se.kth.iv1201.recruitment.backend.json.RegistrationInfo;
 
@@ -36,7 +38,6 @@ public class RecruitmentDAO {
     private static final String SURNAME_COLUMN = "surname";
     private static final String SSN_COLUMN = "ssn";
     private static final String EMAIL_COLUMN = "email";
-    private static final String ROLE_COLUMN = "role";
     private static final String ROLE_ID_COLUMN = "role_id";
     private static final String ROLE_TABLE = "role";
     private static final int DEFAULT_ROLE = 2;
@@ -45,18 +46,19 @@ public class RecruitmentDAO {
     private static final String databaseName = "RecruitmentDatabase";
     private PreparedStatement createUserStmt;
     private PreparedStatement findUserStmt;
-    private PreparedStatement findAllAccountsStmt;
     private PreparedStatement deleteUserStmt;
-    private PreparedStatement changeBalanceStmt;
     private PreparedStatement createRoleStmt;
-    private PreparedStatement deleteFileStmt;
-    private PreparedStatement findFileStmt;
-    private PreparedStatement findAllFilesStmt;
-    private PreparedStatement updateFileStmt;
+    private PreparedStatement findRoleStmt;
+    
+    
+    private Connection connection;
+    private final String SAVEPOINT_NAME = "savepoint";
+    private Savepoint savepoint;
 
     public RecruitmentDAO() throws Exception {
         try {
             Connection connection = createDatasource();
+            this.connection = connection;
             prepareStatements(connection);
         } catch (ClassNotFoundException | SQLException exception) {
             System.out.println(exception.getMessage());
@@ -135,6 +137,7 @@ public class RecruitmentDAO {
     }
     
     public boolean authenticateUser(LoginCredentials credentials) throws Exception{
+        
         String failureMsg = "No user with those credentials in database";
         ResultSet result = null;
         try {
@@ -155,6 +158,27 @@ public class RecruitmentDAO {
         return false;
     }
     
+    public String getUserRole(String username) throws SQLException{
+        String failureMsg = "No user with that username in database.";
+        ResultSet result = null;
+        try {
+            findRoleStmt.setString(1, username);
+            result = findRoleStmt.executeQuery();
+            if (result.next()) {
+                    return result.getString(NAME_COLUMN);
+            }
+        } catch (SQLException e) {
+            throw new SQLException(failureMsg, e);
+        } finally {
+            try {
+                result.close();
+            } catch (Exception e) {
+                throw new SQLException(failureMsg, e);
+            }
+        }
+        throw new SQLException(failureMsg);
+    }
+    
     public void createPerson(RegistrationInfo credentials) throws Exception {
         String failureMsg = "Could not create the account: " + credentials.getUsername();
         if(usernameInDatabase(credentials.getUsername())){
@@ -166,7 +190,13 @@ public class RecruitmentDAO {
             createUserStmt.setString(3, credentials.getSsn());
             createUserStmt.setString(4, credentials.getEmail());
             createUserStmt.setString(5, credentials.getPassword());
-            createUserStmt.setInt(6, DEFAULT_ROLE);
+            int role;
+            if(credentials.getRole().equals(Roles.RECRUITER)){
+                role = 1;
+            } else {
+                role = 2;
+            }
+            createUserStmt.setInt(6, role);
             createUserStmt.setString(7, credentials.getUsername());
             int rows = createUserStmt.executeUpdate();
             if (rows != 1) {
@@ -200,8 +230,9 @@ public class RecruitmentDAO {
         createUserStmt = connection.prepareStatement("INSERT INTO "
                 + PERSON_TABLE + " VALUES ( ?, ?, ?, ?, ?, ?, ?)");
 
-        findUserStmt = connection.prepareStatement("SELECT * from "
+        findUserStmt = connection.prepareStatement("SELECT * FROM "
                 + PERSON_TABLE + " WHERE " + USERNAME_COLUMN + " = ?");
-
+        findRoleStmt = connection.prepareStatement("SELECT "+NAME_COLUMN+" FROM "+ROLE_TABLE+" WHERE "+ROLE_ID_COLUMN+" IN (SELECT "+ROLE_ID_COLUMN+" FROM "
+                + PERSON_TABLE + " WHERE " + USERNAME_COLUMN + " = ?)");
     }
 }

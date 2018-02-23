@@ -15,8 +15,10 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriInfo;
 import se.kth.iv1201.recruitment.backend.controller.Controller;
+import se.kth.iv1201.recruitment.backend.controller.Roles;
 import se.kth.iv1201.recruitment.backend.json.LoginCredentials;
 import se.kth.iv1201.recruitment.backend.json.RegistrationInfo;
+import se.kth.iv1201.recruitment.backend.json.Token;
 
 /**
  *
@@ -44,6 +46,7 @@ public class AuthenticationResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public String register(RegistrationInfo regInfo) {
+        regInfo.setRole(Roles.APPLICANT);
         return controller.registerPerson(regInfo);
     }
     
@@ -67,5 +70,29 @@ public class AuthenticationResource {
         login.setLastname("memesurname");
         login.setUsername("memeusernamenumerodos");
         return controller.registerPerson(login);
+    }
+    
+    @Path("restricted")
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public String registerRecruiter(RegistrationInfo regInfo) {
+        regInfo.setRole(Roles.RECRUITER);
+        return controller.registerPerson(regInfo);
+    }
+    
+    @Path("restrictedd")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public String pathTest() {
+        return "{\"hello\":\"boy\"}";
+    }
+    
+    @Path("restricted/resource")
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public String authorizeUser(Token token) {
+        return controller.authorize(token.getToken());
     }
 }
