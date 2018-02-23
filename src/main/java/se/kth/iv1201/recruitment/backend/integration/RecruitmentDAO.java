@@ -22,6 +22,7 @@ import se.kth.iv1201.recruitment.backend.json.LoginCredentials;
 import se.kth.iv1201.recruitment.backend.json.RegistrationInfo;
 
 /**
+ * A Facade to the database
  *
  * @author udde
  */
@@ -67,10 +68,11 @@ public class RecruitmentDAO {
     }
 
     /**
+     * Connects to the database.
      * 
      * @param dbms
      * @param datasource
-     * @return
+     * @return A connection to the database.
      * @throws ClassNotFoundException
      * @throws SQLException
      * @throws Exception 
@@ -88,9 +90,10 @@ public class RecruitmentDAO {
     
     
     /**
+     * Checks if the Role and Person tables exist in the database.
      * 
      * @param connection
-     * @return
+     * @return true if the tables exist in the database, else false.
      * @throws SQLException 
      */
     private boolean tablesExist(Connection connection) throws SQLException {
@@ -109,6 +112,14 @@ public class RecruitmentDAO {
         }
     }
 
+    /**
+     * Creates the Person and Role tables in the database.
+     * 
+     * @return A connection to the database.
+     * @throws ClassNotFoundException
+     * @throws SQLException
+     * @throws Exception 
+     */
     private Connection createDatasource() throws
             ClassNotFoundException, SQLException, Exception {
         Connection connection = connectToRecruitmentDB(dbms, databaseName);
@@ -123,6 +134,12 @@ public class RecruitmentDAO {
         return connection;
     }
     
+    /**
+     * Insert roles into the Role table.
+     * 
+     * @param connection
+     * @throws SQLException 
+     */
     private void createRoles(Connection connection) throws SQLException{
         createRoleStmt = connection.prepareStatement("INSERT INTO "
                 + ROLE_TABLE + " ("+NAME_COLUMN+") VALUES (?)");
@@ -136,6 +153,13 @@ public class RecruitmentDAO {
         }
     }
     
+    /**
+     * Authenticates the given credentials against the database.
+     * 
+     * @param credentials
+     * @return
+     * @throws Exception 
+     */
     public boolean authenticateUser(LoginCredentials credentials) throws Exception{
         
         String failureMsg = "No user with those credentials in database";
@@ -158,6 +182,13 @@ public class RecruitmentDAO {
         return false;
     }
     
+    /**
+     * Gets the role of the given user from the database.
+     * 
+     * @param username
+     * @return The role of the given user.
+     * @throws SQLException 
+     */
     public String getUserRole(String username) throws SQLException{
         String failureMsg = "No user with that username in database.";
         ResultSet result = null;
@@ -179,6 +210,12 @@ public class RecruitmentDAO {
         throw new SQLException(failureMsg);
     }
     
+    /**
+     * Enters a new Person into the database.
+     * 
+     * @param credentials Data relating to the person.
+     * @throws Exception 
+     */
     public void createPerson(RegistrationInfo credentials) throws Exception {
         String failureMsg = "Could not create the account: " + credentials.getUsername();
         if(usernameInDatabase(credentials.getUsername())){
@@ -207,6 +244,13 @@ public class RecruitmentDAO {
         }
     }
     
+    /**
+     * Checks if the given username is in the database.
+     * 
+     * @param username
+     * @return True if the usernam is in the database, else false.
+     * @throws Exception 
+     */
     public boolean usernameInDatabase(String username) throws Exception {
         String failureMsg = "Could not search for specified username.";
         ResultSet result = null;
@@ -225,7 +269,12 @@ public class RecruitmentDAO {
         }
     }
     
-
+    /**
+     * Initializes PreparedStatemets.
+     * 
+     * @param connection
+     * @throws SQLException 
+     */
     private void prepareStatements(Connection connection) throws SQLException {
         createUserStmt = connection.prepareStatement("INSERT INTO "
                 + PERSON_TABLE + " VALUES ( ?, ?, ?, ?, ?, ?, ?)");

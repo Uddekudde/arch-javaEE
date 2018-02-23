@@ -21,7 +21,8 @@ import se.kth.iv1201.recruitment.backend.json.RegistrationInfo;
 import se.kth.iv1201.recruitment.backend.json.Token;
 
 /**
- *
+ * Contains REST endpoints relating to registration and authentication.
+ * 
  * @author udde
  */
 @Path("")
@@ -79,13 +80,6 @@ public class AuthenticationResource {
     public String registerRecruiter(RegistrationInfo regInfo) {
         regInfo.setRole(Roles.RECRUITER);
         return controller.registerPerson(regInfo);
-    }
-    
-    @Path("restrictedd")
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public String pathTest() {
-        return "{\"hello\":\"boy\"}";
     }
     
     @Path("restricted/resource")

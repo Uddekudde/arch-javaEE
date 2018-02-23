@@ -6,7 +6,8 @@
 package se.kth.iv1201.recruitment.backend.controller;
 
 /**
- *
+ * Specifies the error codes in the application.
+ * 
  * @author udde
  */
 public class ErrorCodes {

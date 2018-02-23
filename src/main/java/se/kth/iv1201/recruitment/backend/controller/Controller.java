@@ -151,6 +151,12 @@ public class Controller {
         }
     }
     
+    /**
+     * Authorize a given token and give access if the role is Recruiter.
+     * 
+     * @param token
+     * @return 
+     */
     public String authorize(String token){
         JSONObject response = new JSONObject();
         try {
@@ -158,10 +164,10 @@ public class Controller {
             String username = result.get("username");
             String role = result.get("role");
             if(role.equals(Roles.RECRUITER)){
-                response.put("token", "RECRUITER_AUTH_SUCCESSFUL");
+                response.put("token", "ACCESS_GRANTED");
                 return response.toString();
             } else {
-                response.put("error", "UNAUTHORIZED_USER");
+                response.put("error", "ACCESS_DENIED");
                 return response.toString();
             }
         } catch (Exception ex) {
