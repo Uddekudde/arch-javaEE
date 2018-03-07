@@ -1,0 +1,2 @@
+curl -i -H "Content-Type: application/json" -d "{\"token\":\"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhdXRoIiwiZXhwIjoxNTE5NDY3NjU1LCJ1c2VybmFtZSI6IlJlY3J1aXRlclRlc3RlciIsInJvbGUiOiJyZWNydWl0ZXIifQ.OoKck4QON6jtKcL6YQmwyxweGiquB9aLwVkYRlOhRAo\"}" http://localhost:27924/restricted/resource
+PAUSE

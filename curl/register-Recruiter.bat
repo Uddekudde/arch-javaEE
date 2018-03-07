@@ -1,0 +1,2 @@
+curl -i -H "Content-Type: application/json" -d "{\"username\":\"RecruiterTesterrrr\",\"password\":\"memepass\",\"firstname\":\"memefirst\",\"lastname\":\"memelast\",\"ssn\":\"memessn\",\"email\":\"meme@mail.se\"}" http://localhost:27924/restricted
+PAUSE
