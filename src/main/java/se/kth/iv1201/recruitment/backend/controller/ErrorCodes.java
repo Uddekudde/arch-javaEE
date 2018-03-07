@@ -15,5 +15,6 @@ public class ErrorCodes {
     public static final String INVALID_USER = "INVALID_USER";
     public static final String USERNAME_UNAVAILABLE = "USERNAME_UNAVAILABLE";
     public static final String INVALID_TOKEN = "INVALID_TOKEN";
+    public static final String INVALID_DATA = "INVALID_DATA";
 
 }

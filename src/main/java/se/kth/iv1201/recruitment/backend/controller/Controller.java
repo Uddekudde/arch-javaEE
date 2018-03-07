@@ -163,7 +163,7 @@ public class Controller {
             response.put("success", "true");
             return response.toString();
         } catch (Exception e) {
-            return "{\"error\":\""+ErrorCodes.INVALID_USER+"\"}";
+            return "{\"error\":\""+ErrorCodes.INVALID_DATA+"\"}";
         }
     }
     
@@ -175,7 +175,7 @@ public class Controller {
             response.put("success", "true");
             return response.toString();
         } catch (Exception e) {
-            return "{\"error\":\""+ErrorCodes.INVALID_USER+"\"}";
+            return "{\"error\":\""+ErrorCodes.INVALID_DATA+"\"}";
         }
     }
 
