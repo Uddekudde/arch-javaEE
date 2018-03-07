@@ -25,6 +25,7 @@ import se.kth.iv1201.recruitment.backend.json.Availability;
 import se.kth.iv1201.recruitment.backend.json.Competence;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import se.kth.iv1201.recruitment.backend.controller.ErrorCodes;
 
 /**
  * A Facade to the database
@@ -252,11 +253,11 @@ public class RecruitmentDAO {
         }
         try {
             if(!validateName(credentials.getFirstname()))
-                throw new Exception(failureMsg);
+                throw new Exception(ErrorCodes.INVALID_DATA);
             if(!validateName(credentials.getLastname()))
-                throw new Exception(failureMsg);
+                throw new Exception(ErrorCodes.INVALID_DATA);
             if(!validateEmail(credentials.getEmail()))
-                throw new Exception(failureMsg);
+                throw new Exception(ErrorCodes.INVALID_DATA);
             createUserStmt.setString(1, credentials.getFirstname());
             createUserStmt.setString(2, credentials.getLastname());
             createUserStmt.setString(3, credentials.getSsn());

@@ -71,7 +71,7 @@ public class AuthenticationResource {
         login.setPassword("memepass");
         login.setSsn("12345");
         login.setLastname("memesurname");
-        login.setUsername("memeusername5");
+        login.setUsername("memeusername7");
         login.setRole(Roles.APPLICANT);
         return controller.registerPerson(login);
     }

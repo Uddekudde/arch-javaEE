@@ -101,7 +101,11 @@ public class Controller {
             response.put("isAdmin", credentials.getRole().equals(Roles.RECRUITER));
         } catch (Exception ex) {
             try {
-                response.put("error", ErrorCodes.USERNAME_UNAVAILABLE);
+                if(ex.getMessage().equals(ErrorCodes.INVALID_DATA)){
+                    response.put("error", ErrorCodes.INVALID_DATA);
+                } else {
+                    response.put("error", ErrorCodes.USERNAME_UNAVAILABLE);
+                }
             } catch (JSONException ex1) {
                 Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex1);
             }
